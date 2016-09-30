@@ -1,0 +1,17 @@
+html, body, .app-holder, .form-signin-holder{
+	height: 100%;
+}
+
+.input-group, button{
+	margin:20px 0px;
+}
+input{
+	outline: none;
+}
+.form-signin-holder, .form-signin{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-flow: column wrap;
+	max-width: 300px!important;
+}

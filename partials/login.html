@@ -1,0 +1,22 @@
+<div class="container form-signin-holder">
+
+  <form class="form-signin">
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">Utilisateur</span>
+      <input type="text" ng-model="login.user" id="inputEmail" class="form-control" placeholder="Utilisateur" required="" autofocus="">
+    </div>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon1">Mot de passe</span>
+      <input type="password" ng-model="login.password" id="inputPassword" class="form-control" placeholder="Mot de pass" required="">
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="doLogin(login)" data-ng-disabled="loginForm.$invalid">Se connecter</button>
+  </form>
+
+</div> <!-- /container -->
+
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+
+
+<div id="ot-engage-ext-container"><div data-reactroot=""></div></div>
