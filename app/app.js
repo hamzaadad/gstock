@@ -21,10 +21,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
     templateUrl: 'partials/signup.html',
     controller: 'authCtrl'
   })
-  .state('Dashboard', {
+  .state('dashboard', {
     url: '/dashboard',
+    abstract: true,
     templateUrl: 'partials/dashboard.html',
     controller: 'authCtrl'
+  })
+  .state('dashboard.home', {
+    url:'^/home',
+    templateUrl: 'partials/dashboard.home.html'
   });
 })
 .run(function ($rootScope, $location, Data) {

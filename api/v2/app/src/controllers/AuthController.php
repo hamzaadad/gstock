@@ -22,14 +22,26 @@ final class AuthController extends BaseController
     }
 
     public function doLogin(Request $request, Response $response, $args){
-      //return 'doing login';
-      //$user = $this->db->table('users')->where(array('user_name'=> $args['user'], 'password'=>$args['password']))->get();
-      //if($user && )
 
-       $json = $request->getBody();
-
-      var_dump($json);
-      return $response;
+       $json = json_decode($request->getBody(), true);
+       //$user = $this->db->table('users')->where(array('user_name'=> $json["customer"]['user'], 'password'=>$json['costumer']['password']))->get();
+       $user = $this->db->table('users')->where(array('user_name'=> 'admin', 'password'=>'admin'))->get();
+      if(count($user) > 0){
+          unset($user[0]->password);
+          return json_encode(
+            array(
+              'status' => 'success',
+              'user' => $user[0]
+            )
+          , true);
+      }else{
+        return json_encode(array(
+          "status"=> 'error',
+          "message"=> "Un erreur s'est produit!"
+        ));
+      }
+       //var_dump($user[0]);
+      //return $response;
     }
 
 }

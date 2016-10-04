@@ -7,9 +7,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>G-stock by Hamza ADAD</title>
   <!-- Bootstrap -->
+  <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,700" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/custom.css" rel="stylesheet">
-  <link href="css/toaster.css" rel="stylesheet">
   <style>
   a {
     color: orange;

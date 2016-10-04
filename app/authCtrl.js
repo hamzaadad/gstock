@@ -1,4 +1,4 @@
-app.controller('authCtrl', function ($scope, $rootScope, $location, $http, Data) {
+app.controller('authCtrl', function ($scope, $state, $rootScope, $location, $http, Data) {
     //initially set those objects to null to avoid undefined error
     $scope.login = {};
     $scope.signup = {};
@@ -8,7 +8,8 @@ app.controller('authCtrl', function ($scope, $rootScope, $location, $http, Data)
         }).then(function (results) {
             Data.toast(results);
             if (results.status == "success") {
-              console.log('good')
+              $state.transitionTo('dashboard.home');
+              //console.log('good')
                 //$location.path('dashboard');
             }else{
               alert(results.message);

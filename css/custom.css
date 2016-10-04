@@ -1,5 +1,11 @@
-html, body, .app-holder, .form-signin-holder{
+*{
+	font-family: 'Quicksand', sans-serif;
+}
+html, body, .app-holder, .form-signin-holder, .page-content{
 	height: 100%;
+}
+body{
+	background: #f0f0f2;
 }
 
 .input-group, button{
@@ -14,4 +20,190 @@ input{
 	justify-content: center;
 	flex-flow: column wrap;
 	max-width: 300px!important;
+}
+
+.side-menu-holder{
+	background: #31383d;
+	height: 100%;
+	padding-right: 0;
+}
+.core-holder{
+	height: 100%;
+	background: #f0f0f2;
+	padding-left: 0px;
+}
+
+.Menu-title{
+	color: #d9d9de;
+    line-height: 2.5;
+    text-align: center;
+    background: #22272a;
+    font-size: 24px;
+}
+.Personna{
+	text-align: center;
+    padding: 50px;
+}
+.Personna .name{
+	color:#fefefe;
+	font-size: 18px;
+}
+.Personna .job{
+	color:#bbc2c6;
+	font-size: 14px;
+}
+.top-bar{
+	background: #fff;
+	width: 100%;
+	height: 60px;
+	box-shadow: 0 -4px 9px 2px rgba(0,0,0,0.4);
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	text-transform: uppercase;
+}
+.current{
+	margin:0 40px;
+}
+.current span{
+	color:#0893da;
+	font-size: 18px;
+}
+.core-body{
+	display: flex;
+	flex-flow: row wrap;
+	align-items: flex-start;
+	justify-content: center;
+	height: 100%;
+  width: 100%;
+}
+.arrow{
+	margin: 0 10px;
+}
+.arrow.in{
+	transform: rotate(45deg);
+}
+.cart-row{
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	justify-content: center;
+}
+.cart{
+	background: #fff;
+	border-radius: 8px;
+	height: 130px;
+	width: 130px;
+	margin: 10px 20px;
+	-webkit-box-shadow: 0px 0px 5px 0px rgba(209,209,209,1);
+	-moz-box-shadow: 0px 0px 5px 0px rgba(209,209,209,1);
+	box-shadow: 0px 0px 5px 0px rgba(209,209,209,1);
+	padding: 10px;
+	text-align: center;
+	cursor: pointer;
+}
+.cart:hover{
+	border: 2px solid rgba(0,0,0,0.1)
+}
+.cart .icon{
+	display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+.cart .icon svg{
+	width: 25px!important;
+	height: 25px!important;
+}
+.cart .text .title{
+	text-transform: uppercase;
+	font-size: 10px;
+	line-height: 2.5;
+
+}
+.cart .text .desc{
+	color: #219eda;
+	max-width: 140px;
+	padding: 5px;
+	margin: 0 auto;
+	font-size: 22px;
+}
+.text-right{
+	text-align: right;
+	flex: 2 0 0;
+}
+.menu{
+
+}
+.menu .menu-item{
+	line-height: 4;
+    color: #b1b2b5;
+    /* padding: 5px 50px; */
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding-left: 20px;
+		font-size: 16px;
+		cursor: pointer;
+}
+.menu .menu-item:hover{
+	border-left:2px solid #1185c6;
+}
+.menu .menu-item.selected-menu{
+	color: #1185c6;
+	border-left: 2px solid #1185c6;
+}
+.menu .menu-item .icon{
+	margin:0 20px 0 10px;
+}
+.menu .menu-item .icon svg > *, .menu .menu-item .icon svg > * > *{
+	fill: #b1b2b5;
+}
+.menu .menu-item.selected-menu .icon svg > *, .menu .menu-item.selected-menu .icon svg > * > *{
+	fill: #1185c6;
+}
+
+.resumies{
+	padding: 20px;
+	background: #fff;
+}
+.resumies .total-vent-row{
+	display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    border-bottom: 1px #e3e3e4 dotted;
+}
+.resumies .total-vent-row .total-achat{
+	font-size: 24px;
+	color:rgb(0, 109, 240);
+	padding: 0 20px;
+}
+.vents-rows{
+	display: table;
+	width: 100%;
+}
+.vents-row{
+	display: table-row;
+	border-bottom: 1px #e3e3e4 solid;
+}
+.vents-row:hover{
+	background: #e3e3e4;
+}
+.vents-cell{
+	display: table-cell;
+	padding: 10px;
+
+}
+
+.vents-cell svg{
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	margin: 0 20px;
+	float: right;
 }
