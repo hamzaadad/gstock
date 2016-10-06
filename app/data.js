@@ -28,5 +28,11 @@ app.factory("Data", ['$http', 'toaster',
             });
         };
 
+        /*obj.isLoged = function(q){
+          return $http.get(serviceBase + q).then(function (results) {
+              return results.data;
+          });
+        }*/
+
         return obj;
 }]);

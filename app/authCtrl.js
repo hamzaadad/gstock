@@ -30,8 +30,9 @@ app.controller('authCtrl', function ($scope, $state, $rootScope, $location, $htt
         });
     };
     $scope.logout = function () {
+      $location.path('login');
         Data.get('logout').then(function (results) {
-            Data.toast(results);
+            //Data.toast(results);
             $location.path('login');
         });
     }

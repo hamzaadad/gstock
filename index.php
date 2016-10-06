@@ -25,8 +25,23 @@
 <script src="js/angular-animate.min.js" ></script>
 <script src="js/angular-ui-router.min.js" ></script>
 <script src="js/toaster.js"></script>
+
+<!-- my shit -->
 <script src="app/app.js"></script>
+
+<!-- Services -->
+<script src="app/services/authMiddleware.js"></script>
+<script src="app/services/home.js"></script>
 <script src="app/data.js"></script>
+
+<!-- Directives -->
 <script src="app/directives.js"></script>
+
+<!-- Controllers -->
 <script src="app/authCtrl.js"></script>
+<script src="app/controllers/home.js"></script>
+<script src="app/controllers/stock.js"></script>
+<script src="app/controllers/achats.js"></script>
+<script src="app/controllers/vents.js"></script>
+<script src="app/controllers/products.js"></script>
 </html>

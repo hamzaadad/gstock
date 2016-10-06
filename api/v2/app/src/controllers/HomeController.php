@@ -15,7 +15,20 @@ final class HomeController extends BaseController
         $this->view->render($response, 'home.twig');
         return $response;
     }
-
+    public function dashboard(Request $request, Response $response, $args){
+      if(isset($_SESSION['isLoged'])){
+        // home model to get all the data needed;
+        // resumer stock today by product
+        // total vent today
+        // total d'achat
+        // nombre clients
+        // nombre fournisseur
+        // prix unitaire aujourd'hui
+        return 'ok';
+      }else{
+        return "ko";
+      }
+    }
     public function viewPost(Request $request, Response $response, $args)
     {
         $this->logger->info("View post using Doctrine with Slim 3");

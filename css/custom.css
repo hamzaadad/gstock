@@ -92,8 +92,8 @@ input{
 .cart{
 	background: #fff;
 	border-radius: 8px;
-	height: 130px;
-	width: 130px;
+	height:200px;
+	width: 200px;
 	margin: 10px 20px;
 	-webkit-box-shadow: 0px 0px 5px 0px rgba(209,209,209,1);
 	-moz-box-shadow: 0px 0px 5px 0px rgba(209,209,209,1);
@@ -168,6 +168,7 @@ input{
 .resumies{
 	padding: 20px;
 	background: #fff;
+	width: 100%;
 }
 .resumies .total-vent-row{
 	display: flex;
@@ -177,11 +178,15 @@ input{
     margin-bottom: 20px;
     padding-bottom: 5px;
     border-bottom: 1px #e3e3e4 dotted;
+		text-align: center;
 }
 .resumies .total-vent-row .total-achat{
 	font-size: 24px;
 	color:rgb(0, 109, 240);
 	padding: 0 20px;
+}
+.resumies .total-vent-row .left, .resumies .total-vent-row .right{
+	margin: 0 10px;
 }
 .vents-rows{
 	display: table;
@@ -197,7 +202,7 @@ input{
 .vents-cell{
 	display: table-cell;
 	padding: 10px;
-
+	max-width:55px;
 }
 
 .vents-cell svg{
@@ -206,4 +211,87 @@ input{
 	cursor: pointer;
 	margin: 0 20px;
 	float: right;
+}
+
+.desc-small-list .row-desc div{
+	    padding: 0 10px;
+}
+.desc-small-list .row-desc{
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	justify-content: center;
+}
+
+.cta-action{
+	border:2px solid #f0f0f2;
+	border-radius:50px;
+	margin: 10px;
+}
+.cta-action:hover{
+	border-color: #1185c6;
+	background: #219eda;
+	color: #fff;
+}
+
+.page-center{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-flow: column wrap;
+	height: 100%;
+}
+.loader-container{
+	padding: 50px;
+	margin: 20px;
+}
+.loader{
+	height: 80px;
+	width: 80px;
+	border-top: 4px solid black;
+	border-bottom: 4px solid black;
+	border-left: 4px solid rgba(0,0,0,0.2);
+	border-right: 4px solid rgba(0,0,0,0.2);
+	border-radius: 100%;
+	animation: spin 0.6s ease-in-out infinite;
+}
+@keyframes spin {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+
+.err-load{
+	margin: 50px;
+  padding: 20px;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column;
+	text-align: center;
+}
+
+.btn-reload{
+	border: 1px solid gray;
+  border-radius: 2px;
+  width: 200px;
+  height: 25px;
+  font-size: 16px;
+  text-align: center;
+  background: rgb(240, 240, 242);
+  margin: 20px;
+	cursor: pointer;
 }
