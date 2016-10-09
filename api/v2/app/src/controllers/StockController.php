@@ -17,6 +17,10 @@ final class StockController extends BaseController
     }
     public function getList(Request $request, Response $response, $args){
       if(isset($_SESSION['isLoged'])){
+        $year = isset($args['year']) ? $args['year'] : null;
+        $month = isset($args['month']) ? $args['month'] : null;
+        $day = isset($args['month']) ? $args['month'] : null;
+        var_dump($year);
         // test if year add year to Date
         // test if month add month
         // test if day add day

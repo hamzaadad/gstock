@@ -191,6 +191,7 @@ input{
 .vents-rows{
 	display: table;
 	width: 100%;
+
 }
 .vents-row{
 	display: table-row;
@@ -202,7 +203,7 @@ input{
 .vents-cell{
 	display: table-cell;
 	padding: 10px;
-	max-width:55px;
+	max-width:100px;
 }
 
 .vents-cell svg{
@@ -294,4 +295,73 @@ input{
   background: rgb(240, 240, 242);
   margin: 20px;
 	cursor: pointer;
+}
+.cta-row{
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	justify-content: flex-end;
+	border-bottom: 1px solid lightgray;
+	line-height: 4;
+}
+/*
+.cta-row .cta{
+	margin:0 10px;
+	cursor: pointer;
+	transition: all 2s cubic-bezier(0.83, 0, 0.27, 1);
+	box-sizing: border-box;
+	background: green;
+}
+.cta-row .cta:hover{
+	border-bottom: 1px solid #1185c6;
+ 	color:#1185c6;
+	background: white;
+}
+*/
+.cta-row .cta{
+	margin:0 10px;
+	cursor: pointer;
+	color: #f45e61;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+}
+.cta-row .cta:hover {
+	color:#1185c6;
+}
+.filters-rows{
+	border-bottom: 1px solid lightgray;
+	line-height: 4;
+}
+.selected{
+	background: #e3e3e4;
+}
+
+
+.modal-core h1{
+	font-size: 20px;
+}
+
+.modal-core input[type="text"]{
+	width: 100%;
+	height: 50px;
+	border-radius: 8px;
+	border: 1px solid rgba(0,0,0,0.2);
+	padding: 10px;
+	margin: 10px 0px;
+}
+
+.modal-core button{
+	width: 100%;
+	height: 50px;
+	border-radius: 8px;
+	border: 1px solid rgba(0,0,0,0.2);
+	padding: 10px;
+	margin: 10px 0px;
+	color:#f45e61;
+	background: transparent;
+	outline: none;
+}
+.modal-core button:hover{
+	background: rgba(0,0,0,0.4);
+	color:#fff;
 }

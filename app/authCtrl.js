@@ -6,7 +6,6 @@ app.controller('authCtrl', function ($scope, $state, $rootScope, $location, $htt
         Data.post('login', {
             customer: customer
         }).then(function (results) {
-            Data.toast(results);
             if (results.status == "success") {
               $state.transitionTo('dashboard.home');
               //console.log('good')

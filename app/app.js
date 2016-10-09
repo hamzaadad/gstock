@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ui.router', 'ngAnimate', 'toaster']);
+var app = angular.module('myApp', ['ui.router', 'ngAnimate', 'toaster', 'ngDialog']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -20,6 +20,20 @@ app.config(function($stateProvider, $urlRouterProvider) {
     url: '/signup',
     templateUrl: 'partials/signup.html',
     controller: 'authCtrl'
+  })
+  .state('printer', {
+    url: '/print/:type?data',
+    templateUrl: function(stateParams){
+        return '/partials/printable/'+stateParams.type+'.html';
+    },
+    controller: function($scope, $stateParams){
+      $scope.data = JSON.parse($stateParams.data);
+      $scope.print = function(){window.print();}
+
+    },
+    params:{
+      data: null
+    }
   })
   .state('dashboard', {
     url: '/dashboard',

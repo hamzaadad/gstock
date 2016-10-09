@@ -29,6 +29,7 @@ final class AuthController extends BaseController
     if(count($user) > 0){
       unset($user[0]->password);
       $_SESSION['isLoged'] = true;
+
       //var_dump($_SESSION);
       return json_encode(
         array(

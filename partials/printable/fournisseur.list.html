@@ -1,0 +1,50 @@
+<style media="screen">
+@media print {
+  @page { margin: 0; }
+  .btn-to-print{
+    display: none;
+  }
+}
+
+</style>
+<div class="btn-to-print" ng-click="print()">
+  print
+</div>
+
+<h1>Fournisseur</h1>
+
+<div class="page-center">
+    <div class="resumies" >
+      <div class="vents-rows">
+        <div class="vents-row" >
+          <div class="vents-cell">
+            Nom:
+          </div>
+          <div class="vents-cell">
+            Telephone:
+          </div>
+          <div class="vents-cell">
+            Address:
+          </div>
+          <div class="vents-cell">
+            Ville:
+          </div>
+        </div>
+        <div class="vents-row" ng-repeat="fournisseur in data" ng-click="select(fournisseur)">
+          <div class="vents-cell">
+            {{fournisseur.nom}}
+          </div>
+          <div class="vents-cell">
+            {{fournisseur.tell}}
+          </div>
+          <div class="vents-cell">
+            {{fournisseur.address}}
+          </div>
+          <div class="vents-cell">
+            {{fournisseur.city}}
+          </div>
+        </div>
+      </div>
+
+    </div>
+</div>

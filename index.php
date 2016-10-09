@@ -10,6 +10,11 @@
   <link href="https://fonts.googleapis.com/css?family=Quicksand:300,400,700" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/custom.css" rel="stylesheet">
+  <link href="css/custom.css" rel="stylesheet">
+  <link href="css/custom.css" rel="stylesheet">
+  <link href="css/ngDialog.min.css" rel="stylesheet">
+  <link href="css/ngDialog-theme-plain.min.css" rel="stylesheet">
+  <link href="css/ngDialog-theme-default.min.css" rel="stylesheet">
   <style>
   a {
     color: orange;
@@ -24,6 +29,7 @@
 <script src="js/angular-route.min.js"></script>
 <script src="js/angular-animate.min.js" ></script>
 <script src="js/angular-ui-router.min.js" ></script>
+<script src="js/angular-dialog.min.js" ></script>
 <script src="js/toaster.js"></script>
 
 <!-- my shit -->
@@ -44,4 +50,6 @@
 <script src="app/controllers/achats.js"></script>
 <script src="app/controllers/vents.js"></script>
 <script src="app/controllers/products.js"></script>
+<script src="app/controllers/fournisseurs.js"></script>
+<script src="app/controllers/clients.js"></script>
 </html>
