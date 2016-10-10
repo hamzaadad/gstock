@@ -3,7 +3,7 @@
  * Slim Framework (http://slimframework.com)
  *
  * @link      https://github.com/slimphp/Slim
- * @copyright Copyright (c) 2011-2015 Josh Lockhart
+ * @copyright Copyright (c) 2011-2016 Josh Lockhart
  * @license   https://github.com/slimphp/Slim/blob/3.x/LICENSE.md (MIT License)
  */
 namespace Slim;
@@ -34,9 +34,7 @@ class Collection implements CollectionInterface
      */
     public function __construct(array $items = [])
     {
-        foreach ($items as $key => $value) {
-            $this->set($key, $value);
-        }
+        $this->replace($items);
     }
 
     /********************************************************************************
@@ -68,7 +66,7 @@ class Collection implements CollectionInterface
     }
 
     /**
-     * Add item to collection
+     * Add item to collection, replacing existing items with the same data key
      *
      * @param array $items Key-value array of data to append to this collection
      */
