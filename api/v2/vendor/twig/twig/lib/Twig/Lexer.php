@@ -136,7 +136,7 @@ class Twig_Lexer implements Twig_LexerInterface
             mb_internal_encoding($mbEncoding);
         }
 
-        return new Twig_TokenStream($this->tokens, $this->filename);
+        return new Twig_TokenStream($this->tokens, $this->filename, $this->env->isDebug() ? $code : '');
     }
 
     protected function lexData()
@@ -288,7 +288,7 @@ class Twig_Lexer implements Twig_LexerInterface
     protected function lexRawData($tag)
     {
         if ('raw' === $tag) {
-            @trigger_error(sprintf('Twig Tag "raw" is deprecated. Use "verbatim" instead in %s at line %d.', $this->filename, $this->lineno), E_USER_DEPRECATED);
+            @trigger_error(sprintf('Twig Tag "raw" is deprecated since version 1.21. Use "verbatim" instead in %s at line %d.', $this->filename, $this->lineno), E_USER_DEPRECATED);
         }
 
         if (!preg_match(str_replace('%s', $tag, $this->regexes['lex_raw_data']), $this->code, $match, PREG_OFFSET_CAPTURE, $this->cursor)) {
@@ -403,7 +403,7 @@ class Twig_Lexer implements Twig_LexerInterface
     protected function popState()
     {
         if (0 === count($this->states)) {
-            throw new Exception('Cannot pop state without a previous state');
+            throw new Exception('Cannot pop state without a previous state.');
         }
 
         $this->state = array_pop($this->states);

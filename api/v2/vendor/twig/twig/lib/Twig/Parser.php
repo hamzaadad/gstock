@@ -63,7 +63,12 @@ class Twig_Parser implements Twig_ParserInterface
     public function parse(Twig_TokenStream $stream, $test = null, $dropNeedle = false)
     {
         // push all variables into the stack to keep the current state of the parser
-        $vars = get_object_vars($this);
+        // using get_object_vars() instead of foreach would lead to https://bugs.php.net/71336
+        $vars = array();
+        foreach ($this as $k => $v) {
+            $vars[$k] = $v;
+        }
+
         unset($vars['stack'], $vars['env'], $vars['handlers'], $vars['visitors'], $vars['expressionParser'], $vars['reservedMacroNames']);
         $this->stack[] = $vars;
 
@@ -109,7 +114,7 @@ class Twig_Parser implements Twig_ParserInterface
             throw $e;
         }
 
-        $node = new Twig_Node_Module(new Twig_Node_Body(array($body)), $this->parent, new Twig_Node($this->blocks), new Twig_Node($this->macros), new Twig_Node($this->traits), $this->embeddedTemplates, $this->getFilename());
+        $node = new Twig_Node_Module(new Twig_Node_Body(array($body)), $this->parent, new Twig_Node($this->blocks), new Twig_Node($this->macros), new Twig_Node($this->traits), $this->embeddedTemplates, $this->getFilename(), $stream->getSource());
 
         $traverser = new Twig_NodeTraverser($this->env, $this->visitors);
 
@@ -368,10 +373,10 @@ class Twig_Parser implements Twig_ParserInterface
             (!$node instanceof Twig_Node_Text && !$node instanceof Twig_Node_BlockReference && $node instanceof Twig_NodeOutputInterface)
         ) {
             if (false !== strpos((string) $node, chr(0xEF).chr(0xBB).chr(0xBF))) {
-                throw new Twig_Error_Syntax('A template that extends another one cannot have a body but a byte order mark (BOM) has been detected; it must be removed.', $node->getLine(), $this->getFilename());
+                throw new Twig_Error_Syntax('A template that extends another one cannot start with a byte order mark (BOM); it must be removed.', $node->getLine(), $this->getFilename());
             }
 
-            throw new Twig_Error_Syntax('A template that extends another one cannot have a body.', $node->getLine(), $this->getFilename());
+            throw new Twig_Error_Syntax('A template that extends another one cannot include contents outside Twig blocks. Did you forget to put the contents inside a {% block %} tag?', $node->getLine(), $this->getFilename());
         }
 
         // bypass "set" nodes as they "capture" the output

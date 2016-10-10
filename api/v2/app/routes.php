@@ -1,5 +1,7 @@
 <?php
 // Routes
+$app->get('/products', 'App\Controller\ProductsController:getList');
+$app->get('/product/{id}', 'App\Controller\ProductsController:getProduct');
 
 $app->post('/login', 'App\Controller\AuthController:doLogin');
 $app->get('/logout', 'App\Controller\AuthController:doLogout');
