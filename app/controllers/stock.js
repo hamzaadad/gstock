@@ -8,7 +8,10 @@ app.controller('stockCtrl', function ($scope, $state, $rootScope, $http, Data) {
   $scope.loadData = function(){
     $scope.isLoaded = false;
     $scope.cantLoad = false;
-    Data.get('stock/date/'+new Date().humain()).then(function(){}, function(err){
+    Data.get('stock/date/'+new Date().humain()).then(function(resp){
+      $scope.isLoaded = true;
+      $scope.cantLoad = false;
+    }, function(err){
       $scope.isLoaded = true;
       $scope.cantLoad = true;
     });

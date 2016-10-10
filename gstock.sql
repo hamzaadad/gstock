@@ -1,246 +1,404 @@
-CREATE DATABASE IF NOT EXISTS angularcode;
+-- phpMyAdmin SQL Dump
+-- version 4.4.10
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost:3306
+-- Generation Time: Oct 10, 2016 at 11:46 AM
+-- Server version: 5.5.42
+-- PHP Version: 7.0.0
 
-USE angularcode;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 --
--- Table structure for table `customers_auth`
+-- Database: `gstock`
 --
 
-CREATE TABLE IF NOT EXISTS `customers_auth` (
-  `uid` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `phone` varchar(100) NOT NULL,
-  `password` varchar(200) NOT NULL,
-  `address` varchar(50) NOT NULL,
-  `city` varchar(50) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`uid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=187 ;
+-- --------------------------------------------------------
 
-
--- ---
--- Globals
--- ---
-
--- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
--- SET FOREIGN_KEY_CHECKS=0;
-
--- ---
--- Table 'clients'
 --
--- ---
-
-DROP TABLE IF EXISTS `clients`;
-CREATE TABLE `clients` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `name` VARCHAR(50) NULL DEFAULT NULL,
-  `adress` VARCHAR(50) NULL DEFAULT NULL,
-  `tell` VARCHAR(20) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-
--- ---
--- Table 'product'
+-- Table structure for table `achats`
 --
--- ---
 
-DROP TABLE IF EXISTS `product`;
-CREATE TABLE `product` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `name` VARCHAR(50) NULL DEFAULT NULL,
-  `ref_type` INTEGER,
-  PRIMARY KEY (`id`)
-);
-
--- ---
--- Table 'Stock'
---
--- ---
-
-DROP TABLE IF EXISTS `Stock`;
-CREATE TABLE `Stock` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `ref_prod` INTEGER,
-  `qty` INTEGER NULL DEFAULT NULL,
-  `date` TIMESTAMP NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-
--- ---
--- Table 'achats'
---
--- ---
-
-DROP TABLE IF EXISTS `achats`;
 CREATE TABLE `achats` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `ref_prod` INTEGER,
-  `ref_for` INTEGER,
-  `ref_vend` INTEGER,
-  `qty` INTEGER NULL DEFAULT NULL,
-  `prix` DOUBLE NULL DEFAULT NULL,
-  `date` TIMESTAMP NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
+  `id` int(11) NOT NULL,
+  `ref_prod` int(11) DEFAULT NULL,
+  `ref_for` int(11) DEFAULT NULL,
+  `ref_vend` int(11) DEFAULT NULL,
+  `qty` int(11) DEFAULT NULL,
+  `prix` double DEFAULT NULL,
+  `date` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- ---
--- Table 'fourniseur'
+-- --------------------------------------------------------
+
 --
--- ---
-
-DROP TABLE IF EXISTS `fourniseur`;
-CREATE TABLE `fourniseur` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `tell` VARCHAR(20) NULL DEFAULT NULL,
-  `adress` MEDIUMTEXT NULL DEFAULT NULL,
-  `nom` VARCHAR(50) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-
--- ---
--- Table 'product_type'
+-- Table structure for table `basket`
 --
--- ---
 
-DROP TABLE IF EXISTS `product_type`;
-CREATE TABLE `product_type` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `type_name` VARCHAR(50) NULL DEFAULT NULL,
-  `unite` VARCHAR(10) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-
--- ---
--- Table 'client_wallet'
---
--- ---
-
-DROP TABLE IF EXISTS `client_wallet`;
-CREATE TABLE `client_wallet` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `ref_cli` INTEGER,
-  `amout` INTEGER NULL DEFAULT NULL,
-  `avout` INTEGER NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-
--- ---
--- Table 'users'
---
--- ---
-
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `name` VARCHAR(50) NULL DEFAULT NULL,
-  `user_name` VARCHAR(10) NULL DEFAULT NULL,
-  `password` VARCHAR(32) NULL DEFAULT NULL,
-  `level` TINYINT NULL DEFAULT 0,
-  `last_login` TIMESTAMP NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-
--- ---
--- Table 'client_operation'
---
--- ---
-
-DROP TABLE IF EXISTS `client_operation`;
-CREATE TABLE `client_operation` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `ref_cli` INTEGER,
-  `ref_vend` INTEGER,
-  `holding_amount` INTEGER NULL DEFAULT NULL,
-  `advance` INTEGER NULL DEFAULT NULL,
-  `date` TIMESTAMP NULL DEFAULT NULL,
-  `ref_operation` INTEGER,
-  PRIMARY KEY (`id`)
-);
-
--- ---
--- Table 'basket'
---
--- ---
-
-DROP TABLE IF EXISTS `basket`;
 CREATE TABLE `basket` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `ref_cli` INTEGER,
-  `ref_vend` INTEGER ,
-  `ref_prod` INTEGER ,
-  `qty` INTEGER NULL DEFAULT NULL,
-  `sell_price` DOUBLE NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-KEY (`ref_cli`)
-);
+  `id` int(11) NOT NULL,
+  `ref_cli` int(11) DEFAULT NULL,
+  `ref_vend` int(11) DEFAULT NULL,
+  `ref_prod` int(11) DEFAULT NULL,
+  `qty` int(11) DEFAULT NULL,
+  `sell_price` double DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- ---
--- Foreign Keys
--- ---
+-- --------------------------------------------------------
 
-ALTER TABLE `product` ADD FOREIGN KEY (ref_type) REFERENCES `product_type` (`id`);
-ALTER TABLE `Stock` ADD FOREIGN KEY (ref_prod) REFERENCES `product` (`id`);
-ALTER TABLE `achats` ADD FOREIGN KEY (ref_prod) REFERENCES `product` (`id`);
-ALTER TABLE `achats` ADD FOREIGN KEY (ref_for) REFERENCES `fourniseur` (`id`);
-ALTER TABLE `achats` ADD FOREIGN KEY (ref_vend) REFERENCES `users` (`id`);
-ALTER TABLE `client_wallet` ADD FOREIGN KEY (ref_cli) REFERENCES `clients` (`id`);
-ALTER TABLE `client_operation` ADD FOREIGN KEY (ref_cli) REFERENCES `clients` (`id`);
-ALTER TABLE `client_operation` ADD FOREIGN KEY (ref_vend) REFERENCES `users` (`id`);
-ALTER TABLE `client_operation` ADD FOREIGN KEY (ref_operation) REFERENCES `basket` (`id`);
-ALTER TABLE `basket` ADD FOREIGN KEY (ref_cli) REFERENCES `clients` (`id`);
-ALTER TABLE `basket` ADD FOREIGN KEY (ref_vend) REFERENCES `users` (`id`);
-ALTER TABLE `basket` ADD FOREIGN KEY (ref_prod) REFERENCES `product` (`id`);
-
--- ---
--- Table Properties
--- ---
-
--- ALTER TABLE `clients` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `product` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Stock` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `achats` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `fourniseur` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `product_type` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `client_wallet` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `users` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `client_operation` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `basket` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- ---
--- Test Data
--- ---
-
--- INSERT INTO `clients` (`id`,`name`,`adress`,`tell`) VALUES
--- ('','','','');
--- INSERT INTO `product` (`id`,`name`,`ref_type`) VALUES
--- ('','','');
--- INSERT INTO `Stock` (`id`,`ref_prod`,`qty`,`date`) VALUES
--- ('','','','');
--- INSERT INTO `achats` (`id`,`ref_prod`,`ref_for`,`ref_vend`,`qty`,`prix`,`date`) VALUES
--- ('','','','','','','');
--- INSERT INTO `fourniseur` (`id`,`tell`,`adress`,`nom`) VALUES
--- ('','','','');
--- INSERT INTO `product_type` (`id`,`type_name`,`unite`) VALUES
--- ('','','');
--- INSERT INTO `client_wallet` (`id`,`ref_cli`,`amout`,`avout`) VALUES
--- ('','','','');
--- INSERT INTO `users` (`id`,`name`,`user_name`,`password`,`level`,`last_login`) VALUES
--- ('','','','','','');
--- INSERT INTO `client_operation` (`id`,`ref_cli`,`ref_vend`,`holding_amount`,`advance`,`date`,`ref_operation`) VALUES
--- ('','','','','','','');
--- INSERT INTO `basket` (`id`,`ref_cli`,`ref_vend`,`ref_prod`,`qty`,`sell_price`) VALUES
--- ('','','','','','');
 --
--- Dumping data for table `customers_auth`
+-- Table structure for table `clients`
 --
 
-INSERT INTO `customers_auth` (`uid`, `name`, `email`, `phone`, `password`, `address`, `city`, `created`) VALUES
-(169, 'Swadesh Behera', 'swadesh@gmail.com', '1234567890', '$2a$10$251b3c3d020155f7553c1ugKfEH04BD6nbCbo78AIDVOqS3GVYQ46', '4092 Furth Circle', 'Singapore', '2014-08-31 18:21:20'),
-(170, 'Ipsita Sahoo', 'ipsita@gmail.com', '1111111111', '$2a$10$d84ffcf46967db4e1718buENHT7GVpcC7FfbSqCLUJDkKPg4RcgV2', '2, rue du Commerce', 'NYC', '2014-08-31 18:30:58'),
-(171, 'Trisha Tamanna Priyadarsini', 'trisha@gmail.com', '2222222222', '$2a$10$c9b32f5baa3315554bffcuWfjiXNhO1Rn4hVxMXyJHJaesNHL9U/O', 'C/ Moralzarzal, 86', 'Burlingame', '2014-08-31 18:32:03'),
-(172, 'Sai Rimsha', 'rimsha@gmail.com', '3333333333', '$2a$10$477f7567571278c17ebdees5xCunwKISQaG8zkKhvfE5dYem5sTey', '897 Long Airport Avenue', 'Madrid', '2014-08-31 20:34:21'),
-(173, 'Satwik Mohanty', 'satwik@gmail.com', '4444444444', '$2a$10$2b957be577db7727fed13O2QmHMd9LoEUjioYe.zkXP5lqBumI6Dy', 'Lyonerstr. 34', 'San Francisco\n', '2014-08-31 20:36:02'),
-(174, 'Tapaswini Sahoo', 'linky@gmail.com', '5555555555', '$2a$10$b2f3694f56fdb5b5c9ebeulMJTSx2Iv6ayQR0GUAcDsn0Jdn4c1we', 'ul. Filtrowa 68', 'Warszawa', '2014-08-31 20:44:54'),
-(175, 'Manas Ranjan Subudhi', 'manas@gmail.com', '6666666666', '$2a$10$03ab40438bbddb67d4f13Odrzs6Rwr92xKEYDbOO7IXO8YvBaOmlq', '5677 Strong St.', 'Stavern\n', '2014-08-31 20:45:08'),
-(178, 'AngularCode Administrator', 'admin@angularcode.com', '0000000000', '$2a$10$72442f3d7ad44bcf1432cuAAZAURj9dtXhEMBQXMn9C8SpnZjmK1S', 'C/1052, Bangalore', '', '2014-08-31 21:00:26');
+CREATE TABLE `clients` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `address` varchar(50) DEFAULT NULL,
+  `city` varchar(100) NOT NULL,
+  `tell` varchar(20) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `clients`
+--
+
+INSERT INTO `clients` (`id`, `name`, `address`, `city`, `tell`, `created_at`, `updated_at`) VALUES
+(2, 'wertyui', 'werty', 'wert', 'qwerty', '2016-10-09 02:09:59', '2016-10-09 02:09:59'),
+(3, 'jhfjgh1hjgf', 'jhgf', 'hj', 'yu', '2016-10-09 02:10:46', '2016-10-09 02:10:46'),
+(4, 'tyye1y', 'ytutyr', 'yuyt', 'uyt', '2016-10-09 02:12:36', '2016-10-09 02:12:36');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `client_operation`
+--
+
+CREATE TABLE `client_operation` (
+  `id` int(11) NOT NULL,
+  `ref_cli` int(11) DEFAULT NULL,
+  `ref_vend` int(11) DEFAULT NULL,
+  `holding_amount` int(11) DEFAULT NULL,
+  `advance` int(11) DEFAULT NULL,
+  `date` timestamp NULL DEFAULT NULL,
+  `ref_operation` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `client_wallet`
+--
+
+CREATE TABLE `client_wallet` (
+  `id` int(11) NOT NULL,
+  `ref_cli` int(11) DEFAULT NULL,
+  `amout` int(11) DEFAULT NULL,
+  `avout` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `fourniseurs`
+--
+
+CREATE TABLE `fourniseurs` (
+  `id` int(11) NOT NULL,
+  `tell` varchar(20) DEFAULT NULL,
+  `address` mediumtext,
+  `city` varchar(100) NOT NULL,
+  `nom` varchar(50) DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `fourniseurs`
+--
+
+INSERT INTO `fourniseurs` (`id`, `tell`, `address`, `city`, `nom`, `updated_at`, `created_at`) VALUES
+(23, '4', '2', '', '1', '2016-10-08 16:32:50', '2016-10-08 16:32:50'),
+(25, '4', '2', '1234563', '1', '2016-10-08 16:51:30', '2016-10-08 16:34:48'),
+(26, '444', '222', '333', '111', '2016-10-08 16:35:03', '2016-10-08 16:35:03'),
+(27, 'test', 'test', 'test', 'test', '2016-10-09 01:33:17', '2016-10-09 01:33:17'),
+(28, 'wetwe', 'test', 'test', 'test', '2016-10-09 01:34:32', '2016-10-09 01:34:32'),
+(29, 'test', 'test', 'test', 'test', '2016-10-09 01:35:22', '2016-10-09 01:35:22');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `ref_type` int(11) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `name`, `ref_type`) VALUES
+(1, 'tes test', 1),
+(2, 'test2', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_type`
+--
+
+CREATE TABLE `product_type` (
+  `id` int(11) NOT NULL,
+  `type_name` varchar(50) DEFAULT NULL,
+  `unite` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `product_type`
+--
+
+INSERT INTO `product_type` (`id`, `type_name`, `unite`) VALUES
+(1, 'test', 'kg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stocks`
+--
+
+CREATE TABLE `stocks` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `qty` int(11) DEFAULT NULL,
+  `fourniseurs_id` int(11) NOT NULL,
+  `date` varchar(10) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `stocks`
+--
+
+INSERT INTO `stocks` (`id`, `product_id`, `qty`, `fourniseurs_id`, `date`, `created_at`, `updated_at`) VALUES
+(3, 1, 10, 29, '2016-10-09', '2016-10-10 08:43:00', '0000-00-00 00:00:00'),
+(4, 2, 10, 29, '2016-10-09', '2016-10-10 08:42:53', '0000-00-00 00:00:00'),
+(5, 2, 39, 29, '2016-10-09', '2016-10-10 05:28:58', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `unite_price_history`
+--
+
+CREATE TABLE `unite_price_history` (
+  `id` int(11) NOT NULL,
+  `ref_prod` int(11) NOT NULL,
+  `price` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `user_name` varchar(10) DEFAULT NULL,
+  `password` varchar(32) DEFAULT NULL,
+  `level` tinyint(4) DEFAULT '0',
+  `last_login` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `name`, `user_name`, `password`, `level`, `last_login`) VALUES
+(1, 'dev', 'admin', 'admin', 0, NULL);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `achats`
+--
+ALTER TABLE `achats`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ref_prod` (`ref_prod`),
+  ADD KEY `ref_for` (`ref_for`),
+  ADD KEY `ref_vend` (`ref_vend`);
+
+--
+-- Indexes for table `basket`
+--
+ALTER TABLE `basket`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ref_cli` (`ref_cli`),
+  ADD KEY `ref_vend` (`ref_vend`),
+  ADD KEY `ref_prod` (`ref_prod`);
+
+--
+-- Indexes for table `clients`
+--
+ALTER TABLE `clients`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `client_operation`
+--
+ALTER TABLE `client_operation`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ref_cli` (`ref_cli`),
+  ADD KEY `ref_vend` (`ref_vend`),
+  ADD KEY `ref_operation` (`ref_operation`);
+
+--
+-- Indexes for table `client_wallet`
+--
+ALTER TABLE `client_wallet`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ref_cli` (`ref_cli`);
+
+--
+-- Indexes for table `fourniseurs`
+--
+ALTER TABLE `fourniseurs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ref_type` (`ref_type`);
+
+--
+-- Indexes for table `product_type`
+--
+ALTER TABLE `product_type`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `stocks`
+--
+ALTER TABLE `stocks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `fourniseurs_id` (`fourniseurs_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `achats`
+--
+ALTER TABLE `achats`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `basket`
+--
+ALTER TABLE `basket`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `clients`
+--
+ALTER TABLE `clients`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `client_operation`
+--
+ALTER TABLE `client_operation`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `client_wallet`
+--
+ALTER TABLE `client_wallet`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `fourniseurs`
+--
+ALTER TABLE `fourniseurs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `product_type`
+--
+ALTER TABLE `product_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `stocks`
+--
+ALTER TABLE `stocks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `achats`
+--
+ALTER TABLE `achats`
+  ADD CONSTRAINT `achats_ibfk_1` FOREIGN KEY (`ref_prod`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `achats_ibfk_2` FOREIGN KEY (`ref_for`) REFERENCES `fourniseurs` (`id`),
+  ADD CONSTRAINT `achats_ibfk_3` FOREIGN KEY (`ref_vend`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `basket`
+--
+ALTER TABLE `basket`
+  ADD CONSTRAINT `basket_ibfk_1` FOREIGN KEY (`ref_cli`) REFERENCES `clients` (`id`),
+  ADD CONSTRAINT `basket_ibfk_2` FOREIGN KEY (`ref_vend`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `basket_ibfk_3` FOREIGN KEY (`ref_prod`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `client_operation`
+--
+ALTER TABLE `client_operation`
+  ADD CONSTRAINT `client_operation_ibfk_1` FOREIGN KEY (`ref_cli`) REFERENCES `clients` (`id`),
+  ADD CONSTRAINT `client_operation_ibfk_2` FOREIGN KEY (`ref_vend`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `client_operation_ibfk_3` FOREIGN KEY (`ref_operation`) REFERENCES `basket` (`id`);
+
+--
+-- Constraints for table `client_wallet`
+--
+ALTER TABLE `client_wallet`
+  ADD CONSTRAINT `client_wallet_ibfk_1` FOREIGN KEY (`ref_cli`) REFERENCES `clients` (`id`);
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`ref_type`) REFERENCES `product_type` (`id`);
+
+--
+-- Constraints for table `stocks`
+--
+ALTER TABLE `stocks`
+  ADD CONSTRAINT `stocks_ibfk_2` FOREIGN KEY (`fourniseurs_id`) REFERENCES `fourniseurs` (`id`),
+  ADD CONSTRAINT `stocks_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
