@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Oct 10, 2016 at 11:46 AM
+-- Generation Time: Oct 12, 2016 at 02:37 PM
 -- Server version: 5.5.42
 -- PHP Version: 7.0.0
 
@@ -137,7 +137,7 @@ CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `name` varchar(50) DEFAULT NULL,
   `ref_type` int(11) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `products`
@@ -145,7 +145,8 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `name`, `ref_type`) VALUES
 (1, 'tes test', 1),
-(2, 'test2', 1);
+(2, 'test2', 1),
+(3, 'test2www', 2);
 
 -- --------------------------------------------------------
 
@@ -157,14 +158,15 @@ CREATE TABLE `product_type` (
   `id` int(11) NOT NULL,
   `type_name` varchar(50) DEFAULT NULL,
   `unite` varchar(10) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `product_type`
 --
 
 INSERT INTO `product_type` (`id`, `type_name`, `unite`) VALUES
-(1, 'test', 'kg');
+(1, 'test', 'kg'),
+(2, 'test', '23');
 
 -- --------------------------------------------------------
 
@@ -180,7 +182,7 @@ CREATE TABLE `stocks` (
   `date` varchar(10) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `stocks`
@@ -199,9 +201,18 @@ INSERT INTO `stocks` (`id`, `product_id`, `qty`, `fourniseurs_id`, `date`, `crea
 
 CREATE TABLE `unite_price_history` (
   `id` int(11) NOT NULL,
-  `ref_prod` int(11) NOT NULL,
-  `price` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `product_id` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `date` varchar(20) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `unite_price_history`
+--
+
+INSERT INTO `unite_price_history` (`id`, `product_id`, `price`, `date`) VALUES
+(1, 1, 10, '2016-10-09'),
+(2, 2, 20, '2016-10-09');
 
 -- --------------------------------------------------------
 
@@ -297,6 +308,13 @@ ALTER TABLE `stocks`
   ADD KEY `fourniseurs_id` (`fourniseurs_id`);
 
 --
+-- Indexes for table `unite_price_history`
+--
+ALTER TABLE `unite_price_history`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -340,17 +358,22 @@ ALTER TABLE `fourniseurs`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `product_type`
 --
 ALTER TABLE `product_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `stocks`
 --
 ALTER TABLE `stocks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+--
+-- AUTO_INCREMENT for table `unite_price_history`
+--
+ALTER TABLE `unite_price_history`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -402,3 +425,9 @@ ALTER TABLE `products`
 ALTER TABLE `stocks`
   ADD CONSTRAINT `stocks_ibfk_2` FOREIGN KEY (`fourniseurs_id`) REFERENCES `fourniseurs` (`id`),
   ADD CONSTRAINT `stocks_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `unite_price_history`
+--
+ALTER TABLE `unite_price_history`
+  ADD CONSTRAINT `prod` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
