@@ -11,6 +11,12 @@ class Stock extends Model
     {
         return $this->belongsTo('App\Models\Product');
     }
+    public function product_()
+    {
+        return $this->belongsTo('App\Models\Product');
+        //->selectRaw('sum(rating) as rating, post_id')
+        //->groupBy('post_id');
+    }
     public function fournisseur()
     {
         return $this->belongsTo('App\Models\Fourniseur', 'fourniseurs_id', 'id');

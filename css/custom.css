@@ -335,8 +335,33 @@ input{
 .selected{
 	background: #e3e3e4;
 }
+.row-stock{
+	display: flex;
+	width: 100%
+
+}
+.stock-display{
+	min-width: 300px;
+}
 
 
+.selection .vents-cell h1 span{
+	color:#f45e61
+}
+.selection .vents-cell h1{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.loading-uph{
+	background: black;
+	background: black;
+	height: 20px;
+	width: 20px;
+	border: 1px solid black;
+	animation: spin 0.6s ease-in-out infinite;
+	margin: 0 20px
+}
 .modal-core h1{
 	font-size: 20px;
 }
@@ -365,3 +390,14 @@ input{
 	background: rgba(0,0,0,0.4);
 	color:#fff;
 }
+
+.add-group{
+	display: flex;
+	flex-direction: column;
+}
+
+ @media screen and (max-width: 640px) {
+	 .selection .vents-cell h1{
+		 font-size: 14px;
+	 }
+ }

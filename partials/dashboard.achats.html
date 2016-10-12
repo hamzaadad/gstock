@@ -1,1 +1,32 @@
-<h1>Achats</h1>
+
+<div class="page-center">
+  <div class="loader-container" ng-show="!isLoaded">
+    <div class="loader"></div>
+  </div>
+  <div class="err-load" ng-show="isLoaded && cantLoad">
+    Oops! Impossible de charger les donnees.<br>
+    <div class="btn-reload" ng-click=loadData()>
+      Rafraîchir
+    </div>
+  </div>
+  <div class="" ng-show="isLoaded && !cantLoad">
+    <h1>Achats</h1>
+    <div class="add-group">
+
+      <select ng-model="stock.fournisseur_id" class="" name="fournisseur">
+        <option value="-1" selected>Choisir un fournisseur</option>
+      </select>
+      <select ng-model="stock.product_id"  ng-repeat="product in products" class="" name="produit">
+        <option value="-1" selected>Choisir un produit</option>
+        <option value="{{product.id}}" selected>{{product.name}}</option>
+      </select>
+      <input ng-model="stock.qty" type="number" name="name" value="0">
+      <input ng-model="stock.price"  type="text" name="name" value="" placeholder="prix">
+      {{total}}
+      <div class="">
+        Save
+      </div>
+    </div>
+  </div>
+
+</div>
