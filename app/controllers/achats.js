@@ -17,6 +17,7 @@ app.controller('achatsCtrl', function ($scope, $state, $rootScope, $http, Data) 
         $scope.isLoaded = true;
         $scope.cantLoad = true;
       })
-    }
+    };
+
     $scope.loadData();
 });

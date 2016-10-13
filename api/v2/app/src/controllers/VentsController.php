@@ -4,11 +4,12 @@ namespace App\Controller;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use DB;
-require_once __dir__.'/../models/Stock.php';
+require_once __dir__.'/../models/Vents.php';
 require_once __dir__.'/../models/Product.php';
-require_once __dir__.'/../models/Fourniseur.php';
+require_once __dir__.'/../models/Clients.php';
+require_once __dir__.'/../models/Users.php';
 
-final class StockController extends BaseController
+final class VentsController extends BaseController
 {
     public function dispatch(Request $request, Response $response, $args)
     {
@@ -35,12 +36,11 @@ final class StockController extends BaseController
           }
         }
         // need to group by product type
-          $stocks = \App\Models\Stock::with('product', 'fournisseur')->where('date', 'Like' , "%$date%")->get();
-
-         return json_encode(
+          $achats = json_decode(json_encode(\App\Models\Vents::with('product', 'client', 'user')->where('date', 'Like' , "%$date%")->get(), true));
+        return json_encode(
           array(
             'status' => '200',
-            'stocks' => $stocks
+            'vents' => $achats
           )
         );
 
@@ -52,29 +52,6 @@ final class StockController extends BaseController
         );
       }
     }
-    public function delete(Request $request, Response $response, $args){
-      if(!empty($args['id'])){
-        $stock = \App\Models\Stock::find($args[id]);
-        if($stock->delete()){
-          return json_encode(
-            array(
-              'status'=>'ok'
-            )
-          );
-        }else{
-          return json_encode(
-            array(
-              'status'=>'ko'
-            )
-          );
-        }
-      }else{
-        return json_encode(
-          array(
-            'status'=>'ko'
-          )
-        );
-      }
-    }
+
 
 }

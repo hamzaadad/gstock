@@ -1,1 +1,93 @@
-<h1>vents</h1>
+
+<div class="page-center">
+  <div class="loader-container" ng-show="!isLoaded">
+    <div class="loader"></div>
+  </div>
+  <div class="err-load" ng-show="isLoaded && cantLoad">
+    Oops! Impossible de charger les donnees.<br>
+    <div class="btn-reload" ng-click=loadData()>
+      Rafraîchir
+    </div>
+  </div>
+  <div class="vents-oprations" style="width: 100%;" ng-show="isLoaded && !cantLoad">
+    <div class="add-group">
+      <h1>Ajouter vente</h1>
+      <br>
+      <label for="product">Produit</label>
+      <select ng-model="vent.id" class="" name="produit" ng-change="whatStock()">
+        <option value="-1" selected>Choisir un produit</option>
+        <option value="{{stock.id}}" ng-repeat="stock in stocks" ng-click ="select(stock)">{{stock.product.name}}</option>
+      </select>
+      <label for="client">Client</label>
+      <select ng-model="vent.client_id" class="" name="client">
+        <option value="-1" selected>Choisir un produit</option>
+        <option value="{{client.id}}" ng-repeat="client in clients" >{{client.name}}</option>
+      </select>
+      <label for="client">price</label>
+      <input ng-model="selected.price" type="number"  placeholder='price' name="name" value="0">
+      <label for="client">Quantiy</label>
+      <input ng-model="vent.qty" type="number" ng-change="watchInput('qty', 0, {{selected.qty}})" max={{selected.qty}} name="name" value="0">
+      <label for="client">Avance</label>
+      <input ng-model="vent.advance"  type="number" name="name" value="" ng-change="watchInput('advance', 0, {{selected.price * vent.qty }})" placeholder="Avance">
+      <label for="client">Avous</label>
+      <input ng-model="vent.avous"  type="number" name="name" value="" placeholder="Avous">
+      Total: {{vent.qty * selected.price}}<br>
+      Rest: {{vent.qty * selected.price - vent.advance - vent.avous}}<br>
+      Avance: {{vent.advance}}
+      <div class="cta_vents" ng-click="saveAchat(vent, selected.price)">
+        Save
+      </div>
+    </div>
+    <div class="add-group">
+      <h1>Compte</h1>
+      <br>
+      <label for="client">Client</label>
+      <select ng-model="credits.client_id" class="" name="client" ng-change="loadCredits(credits.client_id)">
+        <option value="-1" selected>Choisir un produit</option>
+        <option value="{{client.id}}" ng-repeat="client in clients" >{{client.name}}</option>
+      </select>
+      Sold: {{credits.sold}}
+      <label for="client">Monant</label>
+      <input ng-model="credits.givin" type="number" name="name" value="" placeholder="Monant">
+      Rest: {{credits.sold - credits.givin}}<br>
+      <div class="cta_vents" ng-click="saveCredit(credits)">
+        Save
+      </div>
+    </div>
+    <div class="add-group">
+      <h1>List achats</h1>
+      <div class="vents-rows">
+        <div class="vents-row" >
+          <div class="vents-cell">
+            Client:
+          </div>
+          <div class="vents-cell">
+            Product:
+          </div>
+          <div class="vents-cell">
+            Quantiy:
+          </div>
+          <div class="vents-cell">
+            Paiment:
+          </div>
+        </div>
+        <div class="vents-row" ng-repeat="v in ventsHistory" ng-class="{'selected': v.id == v.id}">
+          <div class="vents-cell">
+            {{v.client.name}}
+          </div>
+          <div class="vents-cell">
+            {{v.product.name}}
+          </div>
+          <div class="vents-cell">
+            {{v.qty}}
+          </div>
+          <div class="vents-cell">
+            {{v.sell_price}}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>

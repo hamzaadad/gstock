@@ -31,15 +31,7 @@ final class ProductsController extends BaseController{
           )
        	);
     }
-    public function getGrouped(Request $request, Response $response, $args){
-      $products = \App\Models\Product::with('product_type')->get();
-      return json_encode(
-          array(
-            'status' => '200',
-            'stocks' => $products
-          )
-       	);
-    }
+  
 
     public function getProduct(Request $request, Response $response, $args){
     	// var $id = $args['id']

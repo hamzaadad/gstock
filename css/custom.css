@@ -1,5 +1,6 @@
 *{
 	font-family: 'Quicksand', sans-serif;
+	letter-spacing: 3.5px
 }
 html, body, .app-holder, .form-signin-holder, .page-content{
 	height: 100%;
@@ -131,6 +132,7 @@ input{
 .text-right{
 	text-align: right;
 	flex: 2 0 0;
+	z-index: 999;
 }
 .menu{
 
@@ -394,10 +396,51 @@ input{
 .add-group{
 	display: flex;
 	flex-direction: column;
+	margin: 0 20px;
 }
-
+.text-right .menu{
+	display: none
+}
+.add-group input, .add-group select{
+	background: white;
+	margin: 10px 0px;
+	height: 30px;
+}
  @media screen and (max-width: 640px) {
 	 .selection .vents-cell h1{
 		 font-size: 14px;
 	 }
+	 .text-right .menu{
+		 /*display: block;*/
+		 background: white;
+		 margin-top: 20px;
+	 }
+	 .add-group{
+		 width: 100%;
+	 }
+	 .add-group input, .add-group select{
+		 background: white;
+		 margin: 10px 0px;
+		 height: 30px;
+	 }
+	 .add-group h1{
+		 font-size: 14px;
+	 }
+ }
+ .visible{
+ 	display: block!important;
+ }
+ .vents-oprations{
+	  display: flex;
+		flex-flow: row wrap;
+ }
+
+ .cta_vents{
+	 background: #f45e61;
+	 border-radius: 8px;
+	 color:white;
+	 text-align: center;
+	 margin: 10px 0px;
+	 padding:5px 0;
+	 cursor: pointer;
  }

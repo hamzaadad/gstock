@@ -4,6 +4,8 @@ namespace App\Controller;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 require_once __dir__.'/../models/Clients.php';
+require_once __dir__.'/../models/ClientWallet.php';
+require_once __dir__.'/../models/Stock.php';
 final class ClientsController extends BaseController
 {
     public function dispatch(Request $request, Response $response, $args)
@@ -102,5 +104,83 @@ final class ClientsController extends BaseController
           )
         );
       }
+    }
+    public function getCredits(Request $request, Response $response, $args){
+      if(isset($_SESSION['isLoged'])){
+        $cw = \App\Models\ClientWallet::where('ref_cli', $args['id'])->get();
+        return json_encode(
+          array(
+            'status'=>'200',
+            'credit'=>$cw
+          )
+        );
+      }
+    }
+    public function setCredits(Request $request, Response $response, $args){
+      if(isset($_SESSION['isLoged'])){
+        $json = json_decode($request->getBody(), true);
+        $cw = new \App\Models\ClientWallet(
+          array(
+            'ref_cli' => $json['client_id'],
+            'amout' => $json['givin'] * -1
+          )
+        );
+        if($cw->save()){
+          return json_encode(
+            array('status' => 'ok')
+          );
+        }else{
+          return json_encode(
+            array('status' => 'ko' )
+          );
+        }
+      }
+    }
+    public function setAchats(Request $request, Response $response, $args){
+      $json = json_decode($request->getBody(), true);
+
+      $stock = \App\Models\Stock::where(array(
+        'product_id' => intVal($json['id']),
+        'date' => $json['date']
+      ));
+      echo (intVal($stock->qty) - intVal($json['qty']));
+      if($stock->update(
+        array(
+          'qty' => (intVal($stock->qty) - intVal($json['qty']))
+        )
+      )){
+        $cwTotal = new \App\Models\ClientWallet(
+          array(
+            'ref_cli' => $json['client_id'],
+            'amout' => $json['price'] * $json['qty']
+          )
+        );
+        if($cwTotal->save()){
+          $cwAvance = new \App\Models\ClientWallet(
+            array(
+              'ref_cli' => $json['client_id'],
+              'amout' => $json['advance'] - $json['avous']
+            )
+          );
+          if($cwAvance->save()){
+            return json_encode(
+              array('status' => 'ok')
+            );
+          }else{
+            return json_encode(
+              array('status' => 'ko' )
+            );
+          }
+        }else{
+          return json_encode(
+            array('status' => 'ko1' )
+          );
+        }
+      }else{
+        return json_encode(
+          array('status' => 'ko0' )
+        );
+      }
+
     }
 }
