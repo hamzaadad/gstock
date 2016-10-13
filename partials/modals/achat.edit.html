@@ -1,0 +1,13 @@
+<div class="modal-core">
+  <h1>Achat informations:</h1>
+  <input ng-model="editing.name" type="text" name="name" value="{{editing.name}}" placeholder="Nom">
+  <select ng-model="editing.fournisseur" class="" name="fournisseur" ng-options="fournisseur.nom for fournisseur in fournisseurs">
+    <option value="">Choisir un fournisseur</option>
+  </select>
+  <select ng-model="editing.product_type" class="" name="produit" ng-options="product.type_name for product in productTypes">
+    <option value="" selected>Choisir un type de produit</option>
+  </select>
+  <input ng-model="editing.price" type="text" name="name" value="{{editing.price}}" placeholder="Prix">
+  <input ng-model="editing.stock.qty" type="text" name="name" value="{{editing.qte}}" placeholder="Qte">
+  <button type="button" ng-click="save(editing)" name="button">Enregistrer</button>
+</div>
