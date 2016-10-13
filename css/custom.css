@@ -325,6 +325,10 @@ input{
   -webkit-transition: all 0.25s;
   transition: all 0.25s;
 }
+.cta-row .cta.cta-3{
+  -webkit-transition: all 0.75s;
+  transition: all 0.75s;
+}
 .cta-row .cta:hover {
 	color:#1185c6;
 }
