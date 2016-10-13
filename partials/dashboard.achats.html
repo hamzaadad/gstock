@@ -3,7 +3,7 @@
   <div class="loader-container" ng-show="!isLoaded">
     <div class="loader"></div>
   </div>
-  <div class="err-load" ng-show="isLoaded && cantLoad">
+  <div class="err-load" ng-show="cantLoad">
     Oops! Impossible de charger les donnees.<br>
     <div class="btn-reload" ng-click=loadData()>
       Rafraîchir
@@ -12,21 +12,71 @@
   <div class="" ng-show="isLoaded && !cantLoad">
     <h1>Achats</h1>
     <div class="add-group">
-
-      <select ng-model="stock.fournisseur_id" class="" name="fournisseur">
-        <option value="-1" selected>Choisir un fournisseur</option>
+      <input ng-model="stock.name"  type="text" name="name" value="" placeholder="Nom">
+      <select ng-model="stock.fournisseur" class="" name="fournisseur" ng-options="fournisseur.nom for fournisseur in fournisseurs">
+        <option value="">Choisir un fournisseur</option>
       </select>
-      <select ng-model="stock.product_id"  ng-repeat="product in products" class="" name="produit">
-        <option value="-1" selected>Choisir un produit</option>
-        <option value="{{product.id}}" selected>{{product.name}}</option>
+      <select ng-model="stock.product" class="" name="produit" ng-options="product.type_name for product in productTypes">
+        <option value="" selected>Choisir un type de produit</option>
       </select>
-      <input ng-model="stock.qty" type="number" name="name" value="0">
+      <input ng-model="stock.qty" type="number" name="name" value="0" placeholder="Qte">
       <input ng-model="stock.price"  type="text" name="name" value="" placeholder="prix">
-      {{total}}
-      <div class="">
+      <span>Total: {{stock.price*stock.qty}}</span>
+      <div class="" ng-click="saveAchat()">
         Save
       </div>
     </div>
-  </div>
+    <div class="resumies" ng-show="isLoaded && !cantLoad">
+      <div class="cta-row">
+          <div class="cta cta-3" ng-click="showAdd()">
+            <span>From: </span><input ng-model="filterDates.start" placeholder="YYYY-MM-dd">
+            <span>To: </span><input ng-model="filterDates.end" placeholder="YYYY-MM-dd">
+            <div ng-click="filterAchats()">filter</div>
+          </div>
+      </div>
+      <div class="cta-row">
+        <div class="cta cta-3" ng-click="showAdd()">
+          <!-- <input placeholder="start date: yyyy-mm-dd">
+          <input placeholder="end date: yyyy-mm-dd"> -->
+        </div>
+        <div class="cta" ng-click="ShowEditAchat()">
+          Edit
+        </div>
+        <div class="cta" ng-click="">
+          Imprimer
+        </div>
+      </div>
 
+      <div class="vents-rows">
+        <div class="vents-row" >
+          <div class="vents-cell">
+            Nom
+          </div>
+          <div class="vents-cell">
+            Prix
+          </div>
+          <div class="vents-cell">
+            Fournisseur
+          </div>
+          <div class="vents-cell">
+            Type
+          </div>
+        </div>
+        <div class="vents-row" ng-repeat="product in todayAchats" ng-click="select(product)" ng-class="{'selected': product.id == selected.id}">
+          <div class="vents-cell">
+            {{product.name}}
+          </div>
+          <div class="vents-cell">
+             {{product.price}}
+          </div>
+          <div class="vents-cell">
+             {{product.fournisseur.nom}}
+          </div>
+          <div class="vents-cell">
+             {{product.product_type.type_name}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
