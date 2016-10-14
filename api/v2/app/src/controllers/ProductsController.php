@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 // use App\Models\Product;
 
 require_once __dir__.'/../models/Stock.php';
+require_once __dir__.'/../models/Achat.php';
 require_once __dir__.'/../models/Product.php';
 require_once __dir__.'/../models/ProductType.php';
 require_once __dir__.'/../models/uph.php';
@@ -19,7 +20,7 @@ final class ProductsController extends BaseController{
 
     public function getList(Request $request, Response $response, $args){
 
-      $products = \App\Models\Product::with('product_type', 'uph')->get();
+      $products = \App\Models\Achat::with('product_type', 'uph')->get();
       return json_encode(
           array(
             'status' => '200',
@@ -58,17 +59,17 @@ final class ProductsController extends BaseController{
     }
 
     public function save(Request $request, Response $response, $args){
-      $product = new \App\Models\Product;
+      $achat = new \App\Models\Achat;
       $data = json_decode($request->getBody(), true);
-      $product["name"] = $data["name"];
-      $product["price"] = $data["price"];
-      // $product["qty"] = $data["qty"];
-      $product["ref_four"] = $data["fournisseur"]["id"];
-      $product["ref_type"] = $data["product"]["id"];
-      $product->save();
+      $achat["name"] = $data["name"];
+      $achat["prix"] = $data["price"];
+      $achat["qty"] = $data["qty"];
+      $achat["ref_for"] = $data["fournisseur"]["id"];
+      $achat["ref_type"] = $data["product"]["id"];
+      $achat->save();
       if($product->id){
         $stock = new \App\Models\Stock;
-        $stock["product_id"] = $product["id"];
+        $stock["ref_type"] = $product["id"];
         $stock["qty"] = $data["qty"];
         $stock["fourniseurs_id"] = $product["ref_four"];
         $stock->save();
@@ -113,14 +114,11 @@ final class ProductsController extends BaseController{
         if($stock->save()){
           $product = \App\Models\Product::whereBetween('created_at',array($start, $end))->with(['product_type','fournisseur', 'stock'])->get();
           return json_encode(["status"=>"200","achat"=>$product]);
-          die();
         }else{
           return json_encode(["status"=>"304","message"=>"update failed"]);
-          die();
         }
       }else{
         return json_encode(["status"=>"304","message"=>"update failed"]);
-        die();
       }
     }
 
@@ -128,7 +126,7 @@ final class ProductsController extends BaseController{
       $data = json_decode($request->getBody(), true);
       $start = $data["start"] ? $data["start"] : date("Y-m-d");
       $end = $data["end"] ? $data["end"] : date("Y-m-d");
-      $product = \App\Models\Product::whereBetween('created_at', array($start, $end))->with(['product_type','fournisseur', 'stock'])->get();
+      $product = \App\Models\Achat::whereBetween('created_at', array($start, $end))->with(['product_type','fournisseur', 'stock'])->get();
       return json_encode(["status"=>"200","products"=>$product]);
     }
 
