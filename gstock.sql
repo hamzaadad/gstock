@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Oct 14, 2016 at 12:25 PM
+-- Generation Time: Oct 14, 2016 at 01:36 PM
 -- Server version: 5.5.42
 -- PHP Version: 7.0.0
 
@@ -27,7 +27,9 @@ CREATE TABLE `achats` (
   `ref_vend` int(11) DEFAULT NULL,
   `qty` int(11) DEFAULT NULL,
   `prix` double DEFAULT NULL,
-  `date` timestamp NULL DEFAULT NULL
+  `date` timestamp NULL DEFAULT NULL,
+  `created_at` date NOT NULL,
+  `updated_at` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -201,7 +203,6 @@ INSERT INTO `product_type` (`id`, `type_name`, `unite`) VALUES
 
 CREATE TABLE `stocks` (
   `id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
   `qty` int(11) DEFAULT NULL,
   `fourniseurs_id` int(11) NOT NULL,
   `date` varchar(10) DEFAULT NULL,
@@ -209,7 +210,6 @@ CREATE TABLE `stocks` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `price` double NOT NULL,
   `ref_type` int(11) NOT NULL,
-  `ref_four` int(11) NOT NULL,
   `name` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
@@ -217,10 +217,10 @@ CREATE TABLE `stocks` (
 -- Dumping data for table `stocks`
 --
 
-INSERT INTO `stocks` (`id`, `product_id`, `qty`, `fourniseurs_id`, `date`, `created_at`, `updated_at`, `price`, `ref_type`, `ref_four`, `name`) VALUES
-(3, 1, 10, 29, '2016-10-09', '2016-10-12 22:22:18', '0000-00-00 00:00:00', 20, 0, 0, 0),
-(4, 2, 10, 29, '2016-10-09', '2016-10-12 22:22:20', '0000-00-00 00:00:00', 30, 0, 0, 0),
-(5, 2, 39, 29, '2016-10-09', '2016-10-12 22:22:23', '0000-00-00 00:00:00', 40, 0, 0, 0);
+INSERT INTO `stocks` (`id`, `qty`, `fourniseurs_id`, `date`, `created_at`, `updated_at`, `price`, `ref_type`, `name`) VALUES
+(3, 10, 29, '2016-10-09', '2016-10-12 22:22:18', '0000-00-00 00:00:00', 20, 0, 0),
+(4, 10, 29, '2016-10-09', '2016-10-12 22:22:20', '0000-00-00 00:00:00', 30, 0, 0),
+(5, 39, 29, '2016-10-09', '2016-10-12 22:22:23', '0000-00-00 00:00:00', 40, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -357,7 +357,6 @@ ALTER TABLE `product_type`
 --
 ALTER TABLE `stocks`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `product_id` (`product_id`),
   ADD KEY `fourniseurs_id` (`fourniseurs_id`);
 
 --
@@ -473,5 +472,4 @@ ALTER TABLE `products`
 -- Constraints for table `stocks`
 --
 ALTER TABLE `stocks`
-  ADD CONSTRAINT `stocks_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `stocks_ibfk_2` FOREIGN KEY (`fourniseurs_id`) REFERENCES `fourniseurs` (`id`);
