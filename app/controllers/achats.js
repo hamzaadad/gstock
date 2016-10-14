@@ -59,11 +59,7 @@ app.controller('achatsCtrl', function ($scope, $state, $rootScope, $http, Data, 
         $scope.isLoaded = false;
         $scope.cantLoad = true;
       })
-<<<<<<< HEAD
     };
-=======
-    }
->>>>>>> 058ec7f888bed3532634e663a4da3f541e085f05
 
     $scope.loadData();
 
@@ -72,11 +68,11 @@ app.controller('achatsCtrl', function ($scope, $state, $rootScope, $http, Data, 
         if('status' in resp && resp.status == '200'){
           $scope.todayAchats.push(resp.product);
         }else{
-          
+
         }
 
       }, function(err){
-        
+
       })
     }
     $scope.ShowEditAchat =  function(){
@@ -95,11 +91,11 @@ app.controller('achatsCtrl', function ($scope, $state, $rootScope, $http, Data, 
                 if('status' in resp && resp.status == '200'){
                   console.log('resp',resp.achat)
                 }else{
-                  
+
                 }
 
                 }, function(err){
-                  
+
                 })
               }
         }
@@ -116,11 +112,11 @@ app.controller('achatsCtrl', function ($scope, $state, $rootScope, $http, Data, 
         if('status' in resp && resp.status == '200'){
           $scope.todayAchats = resp.products;
         }else{
-          
+
         }
 
       }, function(err){
-        
+
       })
     }
 });

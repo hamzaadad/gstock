@@ -5,16 +5,11 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 require_once __dir__.'/../models/Clients.php';
 require_once __dir__.'/../models/ClientWallet.php';
-require_once __dir__.'/../models/Stock.php';
+require_once __dir__.'/../models/So.php';
 final class ClientsController extends BaseController
 {
     public function dispatch(Request $request, Response $response, $args)
     {
-        $this->logger->info("Home page action dispatched");
-
-        $this->flash->addMessage('info', 'Sample flash message');
-
-        $this->view->render($response, 'home.twig');
         return $response;
     }
     public function getList(Request $request, Response $response, $args){
@@ -138,28 +133,38 @@ final class ClientsController extends BaseController
     }
     public function setAchats(Request $request, Response $response, $args){
       $json = json_decode($request->getBody(), true);
+      //$stock = \App\Models\Stock::where('date', $json['date']));
+      $so = \App\Models\So::where(array(
+        'ref_type' => $json['id'],
+        'date' => '2016-10-09'//$json['date']
+      ))->take(1);
 
-      $stock = \App\Models\Stock::where(array(
-        'product_id' => intVal($json['id']),
-        'date' => $json['date']
-      ));
-      echo (intVal($stock->qty) - intVal($json['qty']));
-      if($stock->update(
+      //var_dump(json_decode(json_encode($so->get(), true)));die;
+
+      //echo $stock->get()))." ";
+      //echo (intVal($json['qty']))." ";
+      //echo (intVal($stock->qty) - intVal($json['qty']))." ";
+      if($so->update(
         array(
-          'qty' => (intVal($stock->qty) - intVal($json['qty']))
+          'qty' => $so->get()[0]['qty'] - intVal($json['qty'])
         )
       )){
         $cwTotal = new \App\Models\ClientWallet(
           array(
             'ref_cli' => $json['client_id'],
-            'amout' => $json['price'] * $json['qty']
+            'amout' => $json['price'] * $json['qty'],
+            'date' => strtotime(date( "Y-m-d",mktime(0, 0, 0))),
+            'qty' => $json['qty']
           )
         );
         if($cwTotal->save()){
           $cwAvance = new \App\Models\ClientWallet(
             array(
               'ref_cli' => $json['client_id'],
-              'amout' => $json['advance'] - $json['avous']
+              'amout' => ($json['advance'] - $json['avous']) * -1,
+              'avout' => $json['avous'],
+              'date' => strtotime(date( "Y-m-d",mktime(0, 0, 0))),
+              'qty' => $json['qty']
             )
           );
           if($cwAvance->save()){

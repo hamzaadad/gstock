@@ -7,17 +7,35 @@ app.controller('ventsCtrl', function ($scope, $state, $rootScope, $http, Data) {
       'avance':0,
       'price':0
     }
-    Date.prototype.humain = function() {
+    Date.prototype.humain = function(sep) {
       var mm = ((this.getMonth() + 1) > 9) ? this.getMonth() + 1: "0" + (this.getMonth() + 1); // getMonth() is zero-based
       var dd = ((this.getDate()) > 9) ? this.getDate() : "0" + (this.getDate());
-      return [this.getFullYear(),mm, dd].join('/');
+      return [this.getFullYear(),mm, dd].join(sep);
     };
     $scope.products =[];
     $scope.fournisseurs = [];
     $scope.loadData = function(){
       $scope.isLoaded = false;
       $scope.cantLoad = false;
-      Data.get('stock/date/'+new Date().humain()).then(function(resp){
+      Data.get('clients').then(function(res){
+        $scope.clients = res.clients
+      }, function(err){
+        $scope.isLoaded = true;
+        $scope.cantLoad = true;
+      });
+      Data.get('vents/today').then(function(res){
+        $scope.ventsHistory = res.vents;
+      }, function(err){
+        $scope.isLoaded = true;
+        $scope.cantLoad = true;
+      })
+      Data.get('productTypes').then(function(resp){
+        if('status' in resp && resp.status == '200'){
+          $scope.types = resp.productTypes;
+          $scope.isLoaded = true;
+          $scope.cantLoad = false;
+        }
+        /*
         if('status' in resp && resp.status == '200'){
           var qties = {};
           var mySet = new Set();
@@ -51,7 +69,7 @@ app.controller('ventsCtrl', function ($scope, $state, $rootScope, $http, Data) {
             $scope.isLoaded = true;
             $scope.cantLoad = true;
           });
-          Data.get('vents/'+ new Date().humain()).then(function(res){
+          Data.get('vents/'+ new Date().humain("/")).then(function(res){
             $scope.ventsHistory = res.vents;
           }, function(err){
             $scope.isLoaded = true;
@@ -60,7 +78,7 @@ app.controller('ventsCtrl', function ($scope, $state, $rootScope, $http, Data) {
           $scope.isLoaded = true;
           $scope.cantLoad = false;
         }
-
+        */
       }, function(err){
         $scope.isLoaded = true;
         $scope.cantLoad = true;
@@ -80,9 +98,16 @@ app.controller('ventsCtrl', function ($scope, $state, $rootScope, $http, Data) {
       }
     }
     $scope.whatStock = function(){
-        $scope.selected =  $scope.stocks.filter(function(elm){
+      $scope.prodprice = 0
+      Data.get('product/upm/'+$scope.vent.id+'/date/' + new Date().humain('/')).then(function(resp){
+        $scope.prodprice = resp.upm[0].price;
+        console.log(resp);
+      }, function(err){
+        alert('Impossible de charger le pris unitaire!');
+      });
+        /*$scope.selected =  $scope.stocks.filter(function(elm){
           return elm.id == $scope.vent.id
-        })[0]
+        })[0]*/
     }
 
     $scope.save = function(vents){
@@ -117,9 +142,10 @@ app.controller('ventsCtrl', function ($scope, $state, $rootScope, $http, Data) {
     $scope.saveAchat = function(vent, price){
       if(vent){
         vent['price'] = price;
-        vent['date'] = new Date().humain();
+        vent['date'] = new Date().humain("-");
+        vent['resp'] = vent['advance'] - vent['avous']
         Data.post('client/achat', vent).then(function(resp){
-          //$state.reload();
+          $state.reload();
         }, function(err){
           alert('Immpossible d\'effectuer cette operation!')
         })

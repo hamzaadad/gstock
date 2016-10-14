@@ -9,9 +9,10 @@
       Rafraîchir
     </div>
   </div>
-  <div class="" ng-show="isLoaded && !cantLoad">
-    <h1>Achats</h1>
+  <div class="achats-group" ng-show="isLoaded && !cantLoad">
+
     <div class="add-group">
+      <h1>Achats</h1>
       <input ng-model="stock.name"  type="text" name="name" value="" placeholder="Nom">
       <select ng-model="stock.fournisseur" class="" name="fournisseur" ng-options="fournisseur.nom for fournisseur in fournisseurs">
         <option value="">Choisir un fournisseur</option>
@@ -22,7 +23,7 @@
       <input ng-model="stock.qty" type="number" name="name" value="0" placeholder="Qte">
       <input ng-model="stock.price"  type="text" name="name" value="" placeholder="prix">
       <span>Total: {{stock.price*stock.qty}}</span>
-      <div class="" ng-click="saveAchat()">
+      <div class="cta_vents" ng-click="saveAchat()">
         Save
       </div>
     </div>

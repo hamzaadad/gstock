@@ -434,7 +434,7 @@ input{
  .visible{
  	display: block!important;
  }
- .vents-oprations{
+ .vents-oprations, .achats-group{
 	  display: flex;
 		flex-flow: row wrap;
  }

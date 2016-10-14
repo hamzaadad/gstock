@@ -16,7 +16,7 @@
       <label for="product">Produit</label>
       <select ng-model="vent.id" class="" name="produit" ng-change="whatStock()">
         <option value="-1" selected>Choisir un produit</option>
-        <option value="{{stock.id}}" ng-repeat="stock in stocks" ng-click ="select(stock)">{{stock.product.name}}</option>
+        <option value="{{type.id}}" ng-repeat="type in types" ng-click ="select(type)">{{type.type_name}}</option>
       </select>
       <label for="client">Client</label>
       <select ng-model="vent.client_id" class="" name="client">
@@ -24,17 +24,17 @@
         <option value="{{client.id}}" ng-repeat="client in clients" >{{client.name}}</option>
       </select>
       <label for="client">price</label>
-      <input ng-model="selected.price" type="number"  placeholder='price' name="name" value="0">
+      <input ng-model="prodprice" type="number"  placeholder='price' name="name" value="0">
       <label for="client">Quantiy</label>
       <input ng-model="vent.qty" type="number" ng-change="watchInput('qty', 0, {{selected.qty}})" max={{selected.qty}} name="name" value="0">
       <label for="client">Avance</label>
-      <input ng-model="vent.advance"  type="number" name="name" value="" ng-change="watchInput('advance', 0, {{selected.price * vent.qty }})" placeholder="Avance">
+      <input ng-model="vent.advance"  type="number" name="name" value="" ng-change="watchInput('advance', 0, {{prodprice * vent.qty }})" placeholder="Avance">
       <label for="client">Avous</label>
       <input ng-model="vent.avous"  type="number" name="name" value="" placeholder="Avous">
-      Total: {{vent.qty * selected.price}}<br>
-      Rest: {{vent.qty * selected.price - vent.advance - vent.avous}}<br>
+      Total: {{vent.qty * prodprice}}<br>
+      Rest: {{vent.qty * prodprice - vent.advance - vent.avous}}<br>
       Avance: {{vent.advance}}
-      <div class="cta_vents" ng-click="saveAchat(vent, selected.price)">
+      <div class="cta_vents" ng-click="saveAchat(vent, prodprice)">
         Save
       </div>
     </div>
@@ -76,13 +76,13 @@
             {{v.client.name}}
           </div>
           <div class="vents-cell">
-            {{v.product.name}}
+            {{v.product.type_name}}
           </div>
           <div class="vents-cell">
             {{v.qty}}
           </div>
           <div class="vents-cell">
-            {{v.sell_price}}
+            {{v.uph.price}}
           </div>
         </div>
       </div>

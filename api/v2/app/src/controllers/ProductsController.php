@@ -14,15 +14,11 @@ require_once __dir__.'/../models/Fourniseur.php';
 final class ProductsController extends BaseController{
 	public function dispatch(Request $request, Response $response, $args)
     {
-        // $this->logger->info("Product page action dispatched");
-
-        // $this->flash->addMessage('info', 'Sample flash message');
-
-        // $this->view->render($response, 'home.twig');
         return $response;
     }
 
     public function getList(Request $request, Response $response, $args){
+
       $products = \App\Models\Product::with('product_type', 'uph')->get();
       return json_encode(
           array(
@@ -31,7 +27,7 @@ final class ProductsController extends BaseController{
           )
        	);
     }
-  
+
 
     public function getProduct(Request $request, Response $response, $args){
     	// var $id = $args['id']
@@ -51,7 +47,7 @@ final class ProductsController extends BaseController{
 					}
 				}
 			}
-			$upm = \App\Models\Uph::where([['id', $args['id']], ['date', "like" ,"%$date%"]])->get();
+			$upm = \App\Models\Uph::where([['ref_type', $args['id']], ['date', "like" ,"%$date%"]])->get();
 			if(count($upm) > 0){
 				return json_encode(["status"=> '200', 'upm'=>$upm], true);
 			}else{
@@ -78,7 +74,7 @@ final class ProductsController extends BaseController{
         $stock->save();
         if($stock->id){
           $product = $product::where('id', $product->id)->with(['product_type','fournisseur'])->get();
-          echo json_encode(["status"=>"200","product"=>$product]);
+          return json_encode(["status"=>"200","product"=>$product]);
           //update unite price
         }
       }
@@ -86,7 +82,14 @@ final class ProductsController extends BaseController{
 
     public function productTypes(Request $request, Response $response, $args){
       $types = \App\Models\ProductType::all();
-      echo json_encode(["status"=>"200","productTypes"=>$types]);
+    	return json_encode(["status"=>"200","productTypes"=>$types]);
+    }
+    public function productTypesUph(Request $request, Response $response, $args){
+      $types = \App\Models\ProductType::all();
+			foreach(json_decode(json_encode($types), true) as $index=>$type){
+				$types[$index]['uph'] = \App\Models\uph::where(['ref_type'=>$type['id'], 'date'=>'2016-10-09'])->get()->take(1)[0];
+			}
+    	return json_encode(["status"=>"200","productTypes"=>$types]);
     }
 
     public function todayProducts(Request $request, Response $response, $args){
@@ -94,7 +97,7 @@ final class ProductsController extends BaseController{
       $start = $data["start"]? $data["start"] : '2016-10-13';//$data["start"];
       $end = $data["end"]? $data["end"]: '2016-10-13';//$data["end"];
       $products = \App\Models\Product::whereBetween('created_at',array($start, $end))->with(['product_type','fournisseur', 'stock'])->get();
-      echo json_encode(["status"=>"200","products"=>$products]);
+      return json_encode(["status"=>"200","products"=>$products]);
     }
 
     public function updateAchat(Request $request, Response $response, $args){
@@ -109,14 +112,14 @@ final class ProductsController extends BaseController{
         $stock["qty"] = $data["stock"]["qty"];
         if($stock->save()){
           $product = \App\Models\Product::whereBetween('created_at',array($start, $end))->with(['product_type','fournisseur', 'stock'])->get();
-          echo json_encode(["status"=>"200","achat"=>$product]);
+          return json_encode(["status"=>"200","achat"=>$product]);
           die();
         }else{
-          echo json_encode(["status"=>"304","message"=>"update failed"]);
+          return json_encode(["status"=>"304","message"=>"update failed"]);
           die();
         }
       }else{
-        echo json_encode(["status"=>"304","message"=>"update failed"]);
+        return json_encode(["status"=>"304","message"=>"update failed"]);
         die();
       }
     }
@@ -126,7 +129,7 @@ final class ProductsController extends BaseController{
       $start = $data["start"] ? $data["start"] : date("Y-m-d");
       $end = $data["end"] ? $data["end"] : date("Y-m-d");
       $product = \App\Models\Product::whereBetween('created_at', array($start, $end))->with(['product_type','fournisseur', 'stock'])->get();
-      echo json_encode(["status"=>"200","products"=>$product]);
+      return json_encode(["status"=>"200","products"=>$product]);
     }
 
 }

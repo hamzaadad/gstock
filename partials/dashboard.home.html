@@ -27,54 +27,15 @@
           stock
         </div>
         <div class="desc-small-list">
-          <div class="row-desc">
+          <div class="row-desc" ng-repeat="type in types">
             <div class="left">
-              left
+              {{type.type_name}}
             </div>
             <div class="left">
-              10
-            </div>
-          </div>
-          <div class="row-desc">
-            <div class="left">
-              left
-            </div>
-            <div class="left">
-              10
+              {{type.uph.price}}
             </div>
           </div>
-          <div class="row-desc">
-            <div class="left">
-              left
-            </div>
-            <div class="left">
-              10
-            </div>
-          </div>
-          <div class="row-desc">
-            <div class="left">
-              left
-            </div>
-            <div class="left">
-              10
-            </div>
-          </div>
-          <div class="row-desc">
-            <div class="left">
-              left
-            </div>
-            <div class="left">
-              10
-            </div>
-          </div>
-          <div class="row-desc">
-            <div class="left">
-              left
-            </div>
-            <div class="left">
-              10
-            </div>
-          </div>
+
         </div>
       </div>
     </div>
@@ -96,7 +57,7 @@
           Rapports Vents
         </div>
         <div class="desc">
-          204 DH
+          {{ventsTotal}} DH
         </div>
         <div class="cta-action blue-btn">
             Effectuer Vente

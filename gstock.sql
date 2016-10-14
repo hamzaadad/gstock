@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Oct 13, 2016 at 12:07 AM
+-- Generation Time: Oct 14, 2016 at 12:25 PM
 -- Server version: 5.5.42
 -- PHP Version: 7.0.0
 
@@ -22,7 +22,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `achats` (
   `id` int(11) NOT NULL,
-  `ref_prod` int(11) DEFAULT NULL,
+  `ref_type` int(11) DEFAULT NULL,
   `ref_for` int(11) DEFAULT NULL,
   `ref_vend` int(11) DEFAULT NULL,
   `qty` int(11) DEFAULT NULL,
@@ -42,8 +42,16 @@ CREATE TABLE `basket` (
   `ref_vend` int(11) DEFAULT NULL,
   `ref_prod` int(11) DEFAULT NULL,
   `qty` int(11) DEFAULT NULL,
-  `sell_price` double DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `sell_price` double DEFAULT NULL,
+  `date` varchar(20) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `basket`
+--
+
+INSERT INTO `basket` (`id`, `ref_cli`, `ref_vend`, `ref_prod`, `qty`, `sell_price`, `date`) VALUES
+(1, 2, 1, 2, 10, 20, '2016-10-09');
 
 -- --------------------------------------------------------
 
@@ -94,10 +102,26 @@ CREATE TABLE `client_operation` (
 
 CREATE TABLE `client_wallet` (
   `id` int(11) NOT NULL,
-  `ref_cli` int(11) DEFAULT NULL,
-  `amout` int(11) DEFAULT NULL,
-  `avout` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `ref_cli` int(11) NOT NULL,
+  `ref_type` int(11) NOT NULL,
+  `amout` double NOT NULL DEFAULT '0',
+  `avout` double NOT NULL DEFAULT '0',
+  `qty` int(11) NOT NULL,
+  `date` varchar(20) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `client_wallet`
+--
+
+INSERT INTO `client_wallet` (`id`, `ref_cli`, `ref_type`, `amout`, `avout`, `qty`, `date`, `updated_at`, `created_at`) VALUES
+(25, 2, 1, 100, 0, 10, '2016-10-14', '2016-10-14 00:01:43', '2016-10-13 23:03:08'),
+(26, 2, 1, -79.5, 0.5, 0, '2016-10-14', '2016-10-13 23:37:48', '2016-10-13 23:03:08'),
+(27, 2, 1, -10, 0, 0, '2016-10-14', '2016-10-13 23:37:50', '2016-10-13 23:07:44'),
+(28, 2, 1, 20, 0, 0, '1476399600', '2016-10-13 23:47:41', '2016-10-13 23:42:02'),
+(29, 2, 1, -9.1, 0.9, 0, '1476399600', '2016-10-13 23:47:44', '2016-10-13 23:42:02');
 
 -- --------------------------------------------------------
 
@@ -137,18 +161,17 @@ CREATE TABLE `products` (
   `id` int(11) NOT NULL,
   `name` varchar(50) DEFAULT NULL,
   `ref_type` int(11) DEFAULT NULL,
-  `ref_four` int(11) NOT NULL,
-  `price` double NOT NULL
+  `ref_four` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `ref_type`, `ref_four`, `price`) VALUES
-(1, 'tes test', 1, 0, 0),
-(2, 'test2', 1, 0, 0),
-(3, 'test2www', 2, 0, 0);
+INSERT INTO `products` (`id`, `name`, `ref_type`, `ref_four`) VALUES
+(1, 'tes test', 1, 0),
+(2, 'test2', 2, 0),
+(3, 'test2www', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -183,17 +206,44 @@ CREATE TABLE `stocks` (
   `fourniseurs_id` int(11) NOT NULL,
   `date` varchar(10) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `price` double NOT NULL,
+  `ref_type` int(11) NOT NULL,
+  `ref_four` int(11) NOT NULL,
+  `name` int(11) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `stocks`
 --
 
-INSERT INTO `stocks` (`id`, `product_id`, `qty`, `fourniseurs_id`, `date`, `created_at`, `updated_at`) VALUES
-(3, 1, 10, 29, '2016-10-09', '2016-10-10 08:43:00', '0000-00-00 00:00:00'),
-(4, 2, 10, 29, '2016-10-09', '2016-10-10 08:42:53', '0000-00-00 00:00:00'),
-(5, 2, 39, 29, '2016-10-09', '2016-10-10 05:28:58', '0000-00-00 00:00:00');
+INSERT INTO `stocks` (`id`, `product_id`, `qty`, `fourniseurs_id`, `date`, `created_at`, `updated_at`, `price`, `ref_type`, `ref_four`, `name`) VALUES
+(3, 1, 10, 29, '2016-10-09', '2016-10-12 22:22:18', '0000-00-00 00:00:00', 20, 0, 0, 0),
+(4, 2, 10, 29, '2016-10-09', '2016-10-12 22:22:20', '0000-00-00 00:00:00', 30, 0, 0, 0),
+(5, 2, 39, 29, '2016-10-09', '2016-10-12 22:22:23', '0000-00-00 00:00:00', 40, 0, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `stock_operations`
+--
+
+CREATE TABLE `stock_operations` (
+  `id` int(11) NOT NULL,
+  `ref_type` int(11) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `date` varchar(20) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `stock_operations`
+--
+
+INSERT INTO `stock_operations` (`id`, `ref_type`, `qty`, `date`, `updated_at`, `created_at`) VALUES
+(1, 1, 28, '2016-10-09', '2016-10-13 23:42:02', '0000-00-00 00:00:00'),
+(2, 2, 10, '2016-10-09', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -203,18 +253,19 @@ INSERT INTO `stocks` (`id`, `product_id`, `qty`, `fourniseurs_id`, `date`, `crea
 
 CREATE TABLE `unite_price_history` (
   `id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
+  `ref_type` int(11) NOT NULL,
   `price` int(11) NOT NULL,
   `date` varchar(20) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `unite_price_history`
 --
 
-INSERT INTO `unite_price_history` (`id`, `product_id`, `price`, `date`) VALUES
+INSERT INTO `unite_price_history` (`id`, `ref_type`, `price`, `date`) VALUES
 (1, 1, 10, '2016-10-09'),
-(2, 2, 20, '2016-10-09');
+(2, 2, 20, '2016-10-09'),
+(3, 1, 20, '2016-10-10');
 
 -- --------------------------------------------------------
 
@@ -247,7 +298,7 @@ INSERT INTO `users` (`id`, `name`, `user_name`, `password`, `level`, `last_login
 --
 ALTER TABLE `achats`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `ref_prod` (`ref_prod`),
+  ADD KEY `ref_prod` (`ref_type`),
   ADD KEY `ref_for` (`ref_for`),
   ADD KEY `ref_vend` (`ref_vend`);
 
@@ -310,11 +361,17 @@ ALTER TABLE `stocks`
   ADD KEY `fourniseurs_id` (`fourniseurs_id`);
 
 --
+-- Indexes for table `stock_operations`
+--
+ALTER TABLE `stock_operations`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `unite_price_history`
 --
 ALTER TABLE `unite_price_history`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD KEY `product_id` (`ref_type`);
 
 --
 -- Indexes for table `users`
@@ -335,7 +392,7 @@ ALTER TABLE `achats`
 -- AUTO_INCREMENT for table `basket`
 --
 ALTER TABLE `basket`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `clients`
 --
@@ -350,7 +407,7 @@ ALTER TABLE `client_operation`
 -- AUTO_INCREMENT for table `client_wallet`
 --
 ALTER TABLE `client_wallet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=30;
 --
 -- AUTO_INCREMENT for table `fourniseurs`
 --
@@ -372,10 +429,15 @@ ALTER TABLE `product_type`
 ALTER TABLE `stocks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
 --
+-- AUTO_INCREMENT for table `stock_operations`
+--
+ALTER TABLE `stock_operations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `unite_price_history`
 --
 ALTER TABLE `unite_price_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `users`
 --
@@ -384,14 +446,6 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
-
---
--- Constraints for table `achats`
---
-ALTER TABLE `achats`
-  ADD CONSTRAINT `achats_ibfk_1` FOREIGN KEY (`ref_prod`) REFERENCES `products` (`id`),
-  ADD CONSTRAINT `achats_ibfk_2` FOREIGN KEY (`ref_for`) REFERENCES `fourniseurs` (`id`),
-  ADD CONSTRAINT `achats_ibfk_3` FOREIGN KEY (`ref_vend`) REFERENCES `users` (`id`);
 
 --
 -- Constraints for table `basket`
@@ -410,12 +464,6 @@ ALTER TABLE `client_operation`
   ADD CONSTRAINT `client_operation_ibfk_3` FOREIGN KEY (`ref_operation`) REFERENCES `basket` (`id`);
 
 --
--- Constraints for table `client_wallet`
---
-ALTER TABLE `client_wallet`
-  ADD CONSTRAINT `client_wallet_ibfk_1` FOREIGN KEY (`ref_cli`) REFERENCES `clients` (`id`);
-
---
 -- Constraints for table `products`
 --
 ALTER TABLE `products`
@@ -425,11 +473,5 @@ ALTER TABLE `products`
 -- Constraints for table `stocks`
 --
 ALTER TABLE `stocks`
-  ADD CONSTRAINT `stocks_ibfk_2` FOREIGN KEY (`fourniseurs_id`) REFERENCES `fourniseurs` (`id`),
-  ADD CONSTRAINT `stocks_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
-
---
--- Constraints for table `unite_price_history`
---
-ALTER TABLE `unite_price_history`
-  ADD CONSTRAINT `prod` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+  ADD CONSTRAINT `stocks_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `stocks_ibfk_2` FOREIGN KEY (`fourniseurs_id`) REFERENCES `fourniseurs` (`id`);
